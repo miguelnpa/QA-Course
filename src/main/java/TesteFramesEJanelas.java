@@ -38,7 +38,7 @@ public class TesteFramesEJanelas {
 		driver.get(System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
 		
 		String windowHandle = driver.getWindowHandle();
-		driver.findElement(By.id("buttonPopUpEasy")).click();;
+		driver.findElement(By.id("buttonPopUpEasy")).click();
 		driver.switchTo().window("Popup");
 		driver.findElement(By.tagName("textarea")).sendKeys("Deu certo?");
 		driver.close();
@@ -46,6 +46,28 @@ public class TesteFramesEJanelas {
 		driver.switchTo().window(windowHandle);
 		
 		driver.findElement(By.tagName("textarea")).sendKeys("e agora?");
+		
+		driver.quit();
+	}
+	
+	@Test
+	public void testeDeveInteragirComJanelasSemTitulo() {
+		WebDriver driver = new FirefoxDriver();
+		driver.manage().window().setSize(new Dimension(1200, 765));
+		driver.get(System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
+
+		String windowHandle = driver.getWindowHandle();
+		driver.findElement(By.id("buttonPopUpHard")).click();
+		System.out.println(driver.getWindowHandle());
+		System.out.println(driver.getWindowHandles());
+		driver.switchTo().window(driver.getWindowHandles().toArray()[1].toString());
+		driver.findElement(By.tagName("textarea")).sendKeys("Deu certo?");
+		driver.switchTo().window(windowHandle);
+
+		driver.findElement(By.tagName("textarea")).sendKeys("e agora?");
+
+		driver.quit();
+		
 		
 		driver.quit();
 	}
