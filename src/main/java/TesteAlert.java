@@ -1,0 +1,32 @@
+import org.junit.Assert;
+import org.junit.Test;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+
+
+public class TesteAlert {
+	@Test
+	public void testeDeveInteragirComAlertSimples() {
+		WebDriver driver = new FirefoxDriver();
+		driver.manage().window().setSize(new Dimension(1200, 765));
+		driver.get(System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
+		
+		WebElement element = driver.findElement(By.id("alert"));
+		element.click();
+		
+		Alert alert = driver.switchTo().alert();	
+		String texto = alert.getText();
+		Assert.assertEquals("Alert Simples", texto);
+		alert.accept();
+		
+		WebElement textElement = driver.findElement(By.id("elementosForm:nome"));
+		textElement.sendKeys(texto);
+		
+		driver.quit();
+	}
+}
