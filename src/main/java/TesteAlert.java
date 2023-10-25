@@ -57,4 +57,27 @@ public class TesteAlert {
 		
 		driver.quit();
 	}
+	
+	@Test
+	public void testeDeveInteragirComPrompt() {
+		WebDriver driver = new FirefoxDriver();
+		driver.manage().window().setSize(new Dimension(1200, 765));
+		driver.get(System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
+		
+		WebElement element = driver.findElement(By.id("prompt"));
+		element.click();
+		
+		String text = "12";
+		Alert alert = driver.switchTo().alert();	
+		Assert.assertEquals("Digite um numero", alert.getText());
+		alert.sendKeys(text);
+		alert.accept();
+		
+		Assert.assertEquals("Era 12?", alert.getText());
+		alert.accept();
+		
+		Assert.assertEquals(":D", alert.getText());
+		
+		driver.quit();
+	}
 }
