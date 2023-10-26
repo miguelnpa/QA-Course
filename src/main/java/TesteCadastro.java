@@ -13,13 +13,14 @@ import org.openqa.selenium.support.ui.Select;
 public class TesteCadastro {
 
 	private WebDriver driver;
+	private DSL dsl;
 
 	@Before
 	public void inicializa() {
 		driver = new FirefoxDriver();
 		driver.manage().window().setSize(new Dimension(1200, 765));
 		driver.get(System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
-
+		dsl = new DSL(driver);
 	}
 
 	@After
@@ -30,16 +31,11 @@ public class TesteCadastro {
 	@Test
 	public void testeCadastro() {
 
-		driver.findElement(By.id("elementosForm:nome")).sendKeys("Wagner");
-
+		/*driver.findElement(By.id("elementosForm:nome")).sendKeys("Wagner");
 		driver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Costa");
-
 		driver.findElement(By.id("elementosForm:sexo:0")).click();
-		;
-
 		driver.findElement(By.id("elementosForm:comidaFavorita:2")).click();
-		;
-
+		
 		WebElement element = driver.findElement(By.id("elementosForm:escolaridade"));
 
 		Select combo = new Select(element);
@@ -53,6 +49,33 @@ public class TesteCadastro {
 		combo2.selectByValue("natacao");
 
 		driver.findElement(By.id("elementosForm:cadastrar")).click();
+
+		WebElement resultado = driver.findElement(By.id("resultado"));
+
+		Assert.assertEquals("Wagner",
+				resultado.findElement(By.id("descNome")).findElement(By.tagName("span")).getText());
+		Assert.assertEquals("Costa",
+				resultado.findElement(By.id("descSobrenome")).findElement(By.tagName("span")).getText());
+		Assert.assertEquals("Masculino",
+				resultado.findElement(By.id("descSexo")).findElement(By.tagName("span")).getText());
+		Assert.assertEquals("Pizza",
+				resultado.findElement(By.id("descComida")).findElement(By.tagName("span")).getText());
+		Assert.assertEquals("mestrado",
+				resultado.findElement(By.id("descEscolaridade")).findElement(By.tagName("span")).getText());
+		Assert.assertEquals("Natacao",
+				resultado.findElement(By.id("descEsportes")).findElement(By.tagName("span")).getText());
+		Assert.assertEquals("",
+				resultado.findElement(By.id("descSugestoes")).findElement(By.tagName("span")).getText());
+	    */
+		dsl.escreve("elementosForm:nome", "Wagner");
+		dsl.escreve("elementosForm:sobrenome", "Costa");
+		dsl.clicarRadio("elementosForm:sexo:0");
+		dsl.clicarRadio("elementosForm:comidaFavorita:2");
+		
+		dsl.selecionarCombo("elementosForm:escolaridade", "Mestrado");
+		dsl.selecionarCombo("elementosForm:esportes", "Natacao");
+
+		dsl.clicarBotao("elementosForm:cadastrar");
 
 		WebElement resultado = driver.findElement(By.id("resultado"));
 
