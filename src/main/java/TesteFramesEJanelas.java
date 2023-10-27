@@ -2,7 +2,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
@@ -11,13 +10,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 public class TesteFramesEJanelas {
 
 	private WebDriver driver;
+	private DSL dsl;
 
 	@Before
 	public void inicializa() {
 		driver = new FirefoxDriver();
 		driver.manage().window().setSize(new Dimension(1200, 765));
 		driver.get(System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
-
+		dsl = new DSL(driver);
 	}
 
 	@After
@@ -28,6 +28,7 @@ public class TesteFramesEJanelas {
 	@Test
 	public void testeDeveInteragirComFrames() {
 
+		/*
 		driver.switchTo().frame("frame1");
 		driver.findElement(By.id("frameButton")).click();
 
@@ -41,12 +42,22 @@ public class TesteFramesEJanelas {
 
 		driver.switchTo().defaultContent();
 		driver.findElement(By.id("elementosForm:nome")).sendKeys(text);
-
+		*/
+		
+		dsl.entrarFrame("frame1");
+		dsl.clicarBotao("frameButton");
+		
+		String msg = dsl.alertaObterTextoEAceita();
+		Assert.assertEquals("Frame OK!", msg);
+		
+		dsl.sairFrame();
+		dsl.escrever("elementosForm:nome", msg);
 	}
 
 	@Test
 	public void testeDeveInteragirComJanelas() {
 
+		/*
 		String windowHandle = driver.getWindowHandle();
 		driver.findElement(By.id("buttonPopUpEasy")).click();
 		driver.switchTo().window("Popup");
@@ -56,12 +67,20 @@ public class TesteFramesEJanelas {
 		driver.switchTo().window(windowHandle);
 
 		driver.findElement(By.tagName("textarea")).sendKeys("e agora?");
-
+		*/
+		
+		dsl.clicarBotao("buttonPopUpEasy");
+		dsl.trocarJanela("Popup");
+		dsl.escrever(By.tagName("textarea"), "Deu certo?");
+		driver.close();
+		dsl.trocarJanela("");
+		dsl.escrever(By.tagName("textarea"), "e agora?");
 	}
 
 	@Test
 	public void testeDeveInteragirComJanelasSemTitulo() {
 
+		/*
 		String windowHandle = driver.getWindowHandle();
 		driver.findElement(By.id("buttonPopUpHard")).click();
 		System.out.println(driver.getWindowHandle());
@@ -71,6 +90,15 @@ public class TesteFramesEJanelas {
 		driver.switchTo().window(windowHandle);
 
 		driver.findElement(By.tagName("textarea")).sendKeys("e agora?");
-
+		*/
+		
+		dsl.clicarBotao("buttonPopUpHard");
+		System.out.println(driver.getWindowHandle());
+		System.out.println(driver.getWindowHandles());
+		dsl.trocarJanela((String) driver.getWindowHandles().toArray()[1]);
+		dsl.escrever(By.tagName("textarea"), "Deu certo?");
+		dsl.trocarJanela((String) driver.getWindowHandles().toArray()[0]);
+		dsl.escrever(By.tagName("textarea"), "e agora?");
+		
 	}
 }
