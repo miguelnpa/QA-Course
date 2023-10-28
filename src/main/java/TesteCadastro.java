@@ -10,6 +10,7 @@ public class TesteCadastro {
 
 	private WebDriver driver;
 	private DSL dsl;
+	private CampoTreinamentoPage page;
 
 	@Before
 	public void inicializa() {
@@ -17,6 +18,7 @@ public class TesteCadastro {
 		driver.manage().window().setSize(new Dimension(1200, 765));
 		driver.get(System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
 		dsl = new DSL(driver);
+		page = new CampoTreinamentoPage(driver);
 	}
 
 	@After
@@ -63,6 +65,8 @@ public class TesteCadastro {
 		Assert.assertEquals("",
 				resultado.findElement(By.id("descSugestoes")).findElement(By.tagName("span")).getText());
 	    */
+		
+		/*
 		dsl.escrever("elementosForm:nome", "Wagner");
 		dsl.escrever("elementosForm:sobrenome", "Costa");
 		dsl.clicarRadio("elementosForm:sexo:0");
@@ -78,7 +82,23 @@ public class TesteCadastro {
 		Assert.assertEquals("Comida: Pizza", dsl.obterTexto("descComida"));
 		Assert.assertEquals("Escolaridade: mestrado", dsl.obterTexto("descEscolaridade"));
 		Assert.assertEquals("Esportes: Natacao", dsl.obterTexto("descEsportes"));
+		*/
 		
+		page.setNome("Wagner");
+		page.setSobrenome("Costa");
+		page.setSexoMasculino();
+		page.setComidaPizza();
+		page.setEscolaridade("Mestrado");
+		page.setEsporte("Natacao");
+		page.cadastrar();
+		
+		Assert.assertTrue(page.obterResultadoCadastro().startsWith("Cadastrado!"));
+		Assert.assertTrue(page.obterNomeCadastro().endsWith("Wagner"));
+		Assert.assertEquals("Sobrenome: Costa", page.obterSobrenomeCadastro());
+		Assert.assertEquals("Sexo: Masculino", page.obterSexoCadastro());
+		Assert.assertEquals("Comida: Pizza", page.obterComidaCadastro());
+		Assert.assertEquals("Escolaridade: mestrado", page.obterEscolaridadeCadastro());
+		Assert.assertEquals("Esportes: Natacao", page.obterEsporteCadastro());
 	}
 
 	@Test
@@ -90,7 +110,12 @@ public class TesteCadastro {
 		Assert.assertEquals("Nome eh obrigatorio", alert.getText());
 	    */
 		
+		/*
 		dsl.clicarBotao("elementosForm:cadastrar");
+		Assert.assertEquals("Nome eh obrigatorio", dsl.alertaObterTextoEAceita());
+		*/
+		
+		page.cadastrar();
 		Assert.assertEquals("Nome eh obrigatorio", dsl.alertaObterTextoEAceita());
 	}
 
@@ -105,8 +130,14 @@ public class TesteCadastro {
 		Assert.assertEquals("Sobrenome eh obrigatorio", alert.getText());
 		*/
 		
+		/*
 		dsl.escrever("elementosForm:nome", "Nome qualquer");
 		dsl.clicarBotao("elementosForm:cadastrar");
+		Assert.assertEquals("Sobrenome eh obrigatorio", dsl.alertaObterTextoEAceita());
+		*/
+		
+		page.setNome("Nome qualquer");
+		page.cadastrar();
 		Assert.assertEquals("Sobrenome eh obrigatorio", dsl.alertaObterTextoEAceita());
 	}
 
@@ -122,9 +153,16 @@ public class TesteCadastro {
 		Assert.assertEquals("Sexo eh obrigatorio", alert.getText());
 		*/
 		
+		/*
 		dsl.escrever("elementosForm:nome", "Nome qualquer");
 		dsl.escrever("elementosForm:sobrenome", "Sobrenome qualquer");
 		dsl.clicarBotao("elementosForm:cadastrar");
+		Assert.assertEquals("Sexo eh obrigatorio", dsl.alertaObterTextoEAceita());
+		*/
+		
+		page.setNome("Nome qualquer");
+		page.setSobrenome("Sobrenome qualquer");
+		page.cadastrar();
 		Assert.assertEquals("Sexo eh obrigatorio", dsl.alertaObterTextoEAceita());
 	}
 
@@ -144,6 +182,8 @@ public class TesteCadastro {
 		Assert.assertEquals("Tem certeza que voce eh vegetariano?", alert.getText());
 		*/
 		
+		/*
+		
 		dsl.escrever("elementosForm:nome", "Nome qualquer");
 		dsl.escrever("elementosForm:sobrenome", "sobrenome qualquer");
 		dsl.clicarRadio("elementosForm:sexo:1");
@@ -151,6 +191,14 @@ public class TesteCadastro {
 		dsl.clicarRadio("elementosForm:comidaFavorita:3");
 		dsl.clicarRadio("elementosForm:cadastrar");
 		Assert.assertEquals("Tem certeza que voce eh vegetariano?", dsl.alertaObterTextoEAceita());
+		*/
+		
+		page.setNome("Nome qualquer");
+		page.setSobrenome("Sobrenome qualquer");
+		page.setSexoFeminino();
+		page.setComidaCarne();
+		page.setComidaVegetariano();
+		page.cadastrar();
 	}
 
 	@Test
@@ -171,6 +219,7 @@ public class TesteCadastro {
 		Assert.assertEquals("Voce faz esporte ou nao?", alert.getText());
 		*/
 		
+		/*
 		dsl.escrever("elementosForm:nome", "Nome qualquer");
 		dsl.escrever("elementosform:sobrenome", "Sobrenome qualquer");
 		dsl.clicarRadio("elementosForm:sexo:1");
@@ -179,5 +228,13 @@ public class TesteCadastro {
 		dsl.selecionarCombo("elementosForm:esportes", "O que eh esporte?");
 		dsl.clicarBotao("elementosform:cadastrar");
 		Assert.assertEquals("Voce faz esporte ou nao?", dsl.alertaObterTextoEAceita());
+		*/
+		
+		page.setNome("Nome qualquer");
+		page.setSobrenome("Sobrenome qualquer");
+		page.setSexoFeminino();
+		page.setComidaCarne();
+		page.setEsporte("Karate", "O que eh esporte?");
+		page.cadastrar();
 	}
 }
