@@ -199,6 +199,7 @@ public class TesteCadastro {
 		page.setComidaCarne();
 		page.setComidaVegetariano();
 		page.cadastrar();
+		Assert.assertEquals("Tem certeza que voce eh vegetariano?", dsl.alertaObterTextoEAceita());
 	}
 
 	@Test
@@ -236,5 +237,7 @@ public class TesteCadastro {
 		page.setComidaCarne();
 		page.setEsporte("Karate", "O que eh esporte?");
 		page.cadastrar();
+		Assert.assertEquals("Voce faz esporte ou nao?", dsl.alertaObterTextoEAceita());
+		
 	}
 }
