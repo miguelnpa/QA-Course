@@ -1,11 +1,8 @@
-import org.openqa.selenium.WebDriver;
+package br.ce.mnunes.page;
+import br.ce.mnunes.core.BasePage;
 
-public class CampoTreinamentoPage {
-	private DSL dsl;
+public class CampoTreinamentoPage extends BasePage{
 	
-	public CampoTreinamentoPage(WebDriver driver) {
-		dsl = new DSL(driver);
-	}
 
 	public void setNome(String nome) {
 		dsl.escrever("elementosForm:nome", nome);

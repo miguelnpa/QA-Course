@@ -1,30 +1,25 @@
-import org.junit.After;
+package br.ce.mnunes.test;
+import static br.ce.mnunes.core.DriverFactory.getDriver;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class TesteCadastro {
+import br.ce.mnunes.core.BasePage;
+import br.ce.mnunes.page.CampoTreinamentoPage;
 
-	private WebDriver driver;
-	private DSL dsl;
+public class TesteCadastro extends BasePage{
+
 	private CampoTreinamentoPage page;
 
 	@Before
 	public void inicializa() {
-		driver = new FirefoxDriver();
-		driver.manage().window().setSize(new Dimension(1200, 765));
-		driver.get(System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
-		dsl = new DSL(driver);
-		page = new CampoTreinamentoPage(driver);
+
+		getDriver().get(System.getProperty("user.dir") + "\\src\\main\\resources\\componentes.html");
+		page = new CampoTreinamentoPage();
 	}
 
-	@After
-	public void finaliza() {
-		driver.quit();
-	}
+	
 
 	@Test
 	public void testeCadastro() {

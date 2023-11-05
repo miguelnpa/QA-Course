@@ -1,3 +1,4 @@
+package br.ce.mnunes.test;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
